@@ -24,18 +24,20 @@ docker build -t ${SERVICE_NAME}:latest -f "${SCRIPT_DIR}/Dockerfile" "${SCRIPT_D
 && docker push "${IMAGE_REPOSITORY}/${SERVICE_NAME}:latest"
 
 gcloud run deploy ${SERVICE_NAME} \
-  --image "${IMAGE_REPOSITORY}/${SERVICE_NAME}:latest" \
-  --platform managed \
-  --region "${REGION}" \
-  --project "${PROJECT_ID}" \
-  --service-account "${SERVICE_ACCOUNT}" \
-  --memory=4Gi \
-  --cpu=2 \
-  --timeout=3600 \
-  --concurrency=1000 \
-  --max-instances=10 \
-  --ingress=internal \
-  --no-allow-unauthenticated \
-  --set-env-vars="GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=asia-northeast1"
+--image "${IMAGE_REPOSITORY}/${SERVICE_NAME}:latest" \
+--platform managed \
+--region "${REGION}" \
+--project "${PROJECT_ID}" \
+--service-account "${SERVICE_ACCOUNT}" \
+--port=8080 \
+--memory=1Gi \
+--cpu=1 \
+--timeout=3600 \
+--concurrency=300 \
+--min-instances=0 \
+--max-instances=10 \
+--ingress=internal \
+--no-allow-unauthenticated \
+--set-env-vars="GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=asia-northeast1"
 
 echo "✅ ${SERVICE_NAME} deployed successfully!"

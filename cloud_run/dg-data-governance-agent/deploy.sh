@@ -31,11 +31,17 @@ gcloud run deploy ${SERVICE_NAME} \
 --image "${IMAGE_REPOSITORY}/${SERVICE_NAME}:latest" \
 --platform managed \
 --region "${REGION}" \
---port=8080 \
+--project="${PROJECT_ID}" \
 --service-account="${SERVICE_ACCOUNT}" \
+--port=8080 \
+--memory=1Gi \
+--cpu=1 \
+--timeout=3600 \
+--concurrency=300 \
+--min-instances=0 \
+--max-instances=10 \
 --ingress=internal \
 --no-allow-unauthenticated \
---set-env-vars="DG_DATAPLEX_AI_AGENT_URL=${DG_DATAPLEX_AI_AGENT_URL},DG_BIGQUERY_AI_AGENT_URL=${DG_BIGQUERY_AI_AGENT_URL}" \
---project="${PROJECT_ID}"
+--set-env-vars="DG_DATAPLEX_AI_AGENT_URL=${DG_DATAPLEX_AI_AGENT_URL},DG_BIGQUERY_AI_AGENT_URL=${DG_BIGQUERY_AI_AGENT_URL}"
 
 echo "✅ ${SERVICE_NAME} deployed successfully!"

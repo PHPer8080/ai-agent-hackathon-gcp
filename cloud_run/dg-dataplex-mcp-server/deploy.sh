@@ -27,11 +27,16 @@ gcloud run deploy ${SERVICE_NAME} \
 --image "${IMAGE_REPOSITORY}/${SERVICE_NAME}:latest" \
 --platform managed \
 --region "${REGION}" \
---port=8080 \
+--project="${PROJECT_ID}" \
 --service-account="${SERVICE_ACCOUNT}" \
+--memory=1Gi \
+--cpu=1 \
+--timeout=3600 \
+--concurrency=300 \
+--min-instances=0 \
+--max-instances=10 \
 --ingress=internal \
 --no-allow-unauthenticated \
---project="${PROJECT_ID}" \
 --set-env-vars="GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=${REGION}"
 
 echo "✅ ${SERVICE_NAME} deployed successfully!"
