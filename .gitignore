@@ -1,0 +1,8 @@
+.DS_Store
+.ruff_cache
+.vscode
+.env
+venv
+__pycache__
+.mypy_cache
+.pytest_cache

@@ -1,0 +1,22 @@
+# Python関連
+__pycache__/
+*.py[cod]
+.venv/
+.env
+
+# 開発関連
+.git/
+.vscode/
+.idea/
+README.md
+*.md
+
+# Docker関連
+.dockerignore
+Dockerfile*
+docker-compose*.yaml
+deploy.sh
+
+# テスト関連
+test/
+.pytest_cache/

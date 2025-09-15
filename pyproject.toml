@@ -1,0 +1,16 @@
+[tool.ruff]
+target-version="py312"
+line-length = 200
+include = ["*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "Q", "W291", "W292", "W293"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.format]
+quote-style = "double"
+line-ending = "auto"
+indent-style = "space"
+skip-magic-trailing-comma = true
