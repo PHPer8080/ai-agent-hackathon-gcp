@@ -2,15 +2,17 @@
 
 ## 🎯 提出作品
 
-Google Cloud Platform上で動作するマルチエージェント構成のデータガバナンスシステムです。BigQueryとDataplexを統合し、AIエージェントによる自動化されたデータ品質管理とガバナンス分析を提供します。
+- [第3回 AI Agent Hackathon with Google Cloud](https://zenn.dev/hackathons/google-cloud-japan-ai-hackathon-vol3?tab=overview)
+- Google Cloud上で動作するマルチエージェント構成のデータガバナンスシステムです。
+- BigQueryテーブル(view)のメタデータやデータプロファイルの取得、データ品質ルールの提案を行うAIエージェントを提供します。
 
 ## 🏗️ システム構成
 
 ### マルチエージェント アーキテクチャ
 - **親エージェント**: 統合的なデータガバナンス分析とエージェント間の調整
-- **BigQuery AIエージェント**: BigQueryデータの品質分析、メタデータ管理
+- **BigQuery AIエージェント**: BigQueryのメタデータ管理、リネージ・データプロファイルの取得
 - **Dataplex AIエージェント**: Dataplexによるデータ品質ルール提案
-- **MCPサーバー**: BigQuery/Dataplex APIとの統合インターフェース
+- **MCPサーバー**: BigQuery/Dataplex APIとのインターフェース
 - **Chat UI**: Chainlitベースのユーザーインターフェース
 
 ### 主要機能
@@ -24,6 +26,7 @@ Google Cloud Platform上で動作するマルチエージェント構成のデ�
 ### 🚀 技術スタック
 - **MCP (Model Context Protocol)**: 最新のAIエージェント統合プロトコル
 - **A2A (Agent-to-Agent)**: エージェント間の自律的な協調処理
+- **Google ADK**: 独自AIエージェント(BigQuery/Dataplex)
 - **Gemini 1.5 Flash**: Google最新LLMによる高速データ分析
 - **Cloud Run**: サーバーレスでのスケーラブルなマイクロサービス構成
 - **BigQuery**: メタデータとリネージの動的分析
@@ -70,3 +73,6 @@ Google Cloud Platform上で動作するマルチエージェント構成のデ�
 
 ### テストデータについて
 `bigquery/test_governance_tables.sql` にはサンプルテーブルが定義されており、デモ・検証用に使用できます。
+
+### Cloud Runの設定値について
+各AIエージェント並びに各MCPサーバーの最小インスタンス数を1としているため、サービスをデプロイするとインスタンスの維持費が発生します。
