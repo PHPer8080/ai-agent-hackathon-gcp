@@ -1,6 +1,6 @@
 # Data Governance AI Agent System
 
-## 🏆 提出作品
+## 🎯 提出作品
 
 Google Cloud Platform上で動作するマルチエージェント構成のデータガバナンスシステムです。BigQueryとDataplexを統合し、AIエージェントによる自動化されたデータ品質管理とガバナンス分析を提供します。
 
@@ -29,6 +29,21 @@ Google Cloud Platform上で動作するマルチエージェント構成のデ�
 - **BigQuery**: メタデータとリネージの動的分析
 - **Chainlit**: リアルタイムストリーミング対応のモダンChat UI
 
+## 📁 プロジェクト構造
+
+```
+├── cloud_run/                    # Cloud Runサービス群
+│   ├── dg-data-governance-agent/  # 親エージェント
+│   ├── dg-bigquery-ai-agent/      # BigQuery専用エージェント
+│   ├── dg-dataplex-ai-agent/      # Dataplex専用エージェント
+│   ├── dg-bigquery-mcp-server/    # BigQuery MCPサーバー
+│   ├── dg-dataplex-mcp-server/    # Dataplex MCPサーバー
+│   └── dg-data-governance-chatui/ # Chainlit Chat UI
+└── bigquery/                     # テストデータ・スキーマ
+    ├── test_governance_tables.sql # サンプルテーブル定義
+    └── README.md                  # テストデータ説明
+```
+
 ## 🚀 クイックスタート
 
 ### 前提条件
@@ -55,21 +70,3 @@ Google Cloud Platform上で動作するマルチエージェント構成のデ�
 
 ### テストデータについて
 `bigquery/test_governance_tables.sql` にはサンプルテーブルが定義されており、デモ・検証用に使用できます。
-
-## 📁 プロジェクト構造
-
-```
-├── cloud_run/                    # Cloud Runサービス群
-│   ├── dg-data-governance-agent/  # 親エージェント
-│   ├── dg-bigquery-ai-agent/      # BigQuery専用エージェント
-│   ├── dg-dataplex-ai-agent/      # Dataplex専用エージェント
-│   ├── dg-bigquery-mcp-server/    # BigQuery MCPサーバー
-│   ├── dg-dataplex-mcp-server/    # Dataplex MCPサーバー
-│   └── dg-data-governance-chatui/ # Chainlit Chat UI
-└── bigquery/                     # テストデータ・スキーマ
-    ├── test_governance_tables.sql # サンプルテーブル定義
-    └── README.md                  # テストデータ説明
-```
-
----
-**技術スタック**: Python, FastAPI, Chainlit, Google Cloud (BigQuery, Dataplex, Cloud Run)
