@@ -1,12 +1,20 @@
-# 🏞️ Data Governance ChatUI
+# DG Data Governance ChatUI
 
-Google Cloud Dataplex・BigQueryを使ったデータガバナンス管理のためのChainlit WebUIです。
+Google Cloud Dataplex・BigQueryを使ったデータガバナンス管理のためのChainlit WebUI
 
 ## 📋 概要
 
 `dg-data-governance-agent`と連携し、直感的なチャットインターフェースでデータガバナンス業務を支援します。Dataplex・BigQuery両方のデータソースを統合分析できます。
 
-## 🎯 主な機能
+## 🏗️ アーキテクチャ
+
+```text
+[User] → [ChatUI (Chainlit)] → [dg-data-governance-agent] →
+    ├── [dg-dataplex-ai-agent] → [Dataplex API]
+    └── [dg-bigquery-ai-agent] → [BigQuery API]
+```
+
+## 🔧 主要機能
 
 ### Dataplex機能
 
@@ -27,15 +35,31 @@ Google Cloud Dataplex・BigQueryを使ったデータガバナンス管理のた
 - **包括的分析**: Dataplex・BigQuery横断での統合分析
 - **ガバナンス提案**: データ管理改善のための具体的アドバイス
 
-## 🏗️ アーキテクチャ
+## 📱 UI 機能
 
-```text
-[User] → [ChatUI (Chainlit)] → [dg-data-governance-agent] →
-    ├── [dg-dataplex-ai-agent] → [Dataplex API]
-    └── [dg-bigquery-ai-agent] → [BigQuery API]
-```
+### プリセットプロンプト
 
-## 🚀 デプロイ方法
+#### BigQueryプリセット
+
+- 📊 **データセット一覧**: BigQueryデータセット表示
+- 🔗 **データ系譜分析**: テーブル依存関係の可視化
+- 📈 **ガバナンススコア**: データ品質とメタデータの評価
+- 🏷️ **メタデータ不足検出**: 説明や論理名が不足しているテーブルを検出
+- 📋 **カラム情報確認**: テーブルのカラム情報と説明を確認
+- 📊 **統計情報分析**: データ品質の詳細分析
+
+#### Dataplexプリセット
+
+- 🛡️ **品質ルール提案**: 統計情報に基づく品質管理ルール
+- 💡 **メタデータ提案**: 不足している論理名と説明を提案
+
+### レスポンス表示
+
+- **🏞️ Dataplex分析結果**: Dataplex専門エージェントからの詳細データ
+- **🗃️ BigQuery分析結果**: BigQuery専門エージェントからの詳細データ
+- **🛡️ データガバナンス観点**: 親エージェントからの統合分析・提案
+
+## 🚀 デプロイ
 
 ### 前提条件
 
@@ -51,66 +75,7 @@ cd cloud_run/dg-data-governance-chatui
 ./deploy.sh <PROJECT_ID> <SERVICE_ACCOUNT>
 
 # 例
-./deploy.sh your-project-id sample-service-account@your-project-id.iam.gserviceaccount.com
-```
-
-## 🔧 環境変数
-
-### AGENT_URL
-
-- **説明**: データガバナンスエージェントのURL
-- **デフォルト**: `https://dg-data-governance-agent-{PROJECT_ID}.asia-northeast1.run.app`
-
-### PORT
-
-- **説明**: Chainlitサーバーポート
-- **デフォルト**: `8000`
-
-## 📱 UI 機能
-
-### プリセットプロンプト
-
-#### Dataplexプリセット
-
-- 🏞️ **データアセット一覧**: Dataplexアセットの表示
-- 🔗 **データ系譜分析**: 依存関係の可視化
-- 📊 **データ品質確認**: 品質メトリクス取得
-
-#### BigQueryプリセット
-
-- 🗃️ **データセット一覧**: BigQueryデータセット表示
-- 📋 **テーブル詳細**: テーブル構造・メタデータ確認
-- 🔍 **クエリ実行**: 安全なSQLクエリ実行
-
-#### 統合分析プリセット
-
-- 🛡️ **ガバナンス状況分析**: 包括的な現状評価
-- 🏷️ **メタデータタグ管理**: タグ情報の整理
-- 💡 **改善提案**: 具体的なアクションアイテム
-
-### レスポンス表示
-
-- **🏞️ Dataplex分析結果**: Dataplex専門エージェントからの詳細データ
-- **🗃️ BigQuery分析結果**: BigQuery専門エージェントからの詳細データ
-- **🛡️ データガバナンス観点**: 親エージェントからの統合分析・提案
-
-## 🔒 セキュリティ
-
-- **認証**: Cloud Run Identity Tokenによる認証
-- **非rootユーザー実行**: セキュリティベストプラクティス準拠
-- **Cloud Run統合**: マネージドサービスのセキュリティ機能活用
-
-## 🧪 ローカル開発
-
-```bash
-# Poetry環境セットアップ
-poetry install
-
-# 環境変数設定
-export AGENT_URL="https://dg-data-governance-agent-your-project.asia-northeast1.run.app"
-
-# Chainlitアプリ起動
-poetry run chainlit run app.py
+./deploy.sh your-project-id your-service-account@your-project-id.iam.gserviceaccount.com
 ```
 
 ## 📊 技術スタック
@@ -122,11 +87,11 @@ poetry run chainlit run app.py
 - **デプロイ**: Cloud Run
 - **依存関係管理**: Poetry
 
-## 🔗 関連サービス
+## 🔒 セキュリティ
 
-- `dg-data-governance-agent`: 親エージェント（このUIが接続）
-- `dg-dataplex-ai-agent`: Dataplex専門子エージェント
-- `dg-bigquery-ai-agent`: BigQuery専門子エージェント
+- **認証**: Cloud Run Identity Tokenによる認証
+- **非rootユーザー実行**: セキュリティベストプラクティス準拠
+- **Cloud Run統合**: マネージドサービスのセキュリティ機能活用
 
 ## 📝 使用例
 
@@ -142,35 +107,20 @@ poetry run chainlit run app.py
 #### BigQuery操作
 
 ```text
-「BigQueryのtt_hackathonデータセットのテーブル一覧を表示して」
+「BigQueryのtt_dlkデータセットのテーブル一覧を表示して」
 「説明が設定されていないテーブルを検出して」
 ```
 
 ### 高度な統合分析
 
 ```text
-「BigQueryのtt_hackathonとDataplexアセットの品質状況を統合分析して」
+「BigQueryのtt_dlkとDataplexアセットの品質状況を統合分析して」
 「プロジェクト全体のデータガバナンス状況を分析して」
 「メタデータタグの整理状況と改善提案をお願いします」
 ```
 
-## 🛠️ トラブルシューティング
+## 🔗 関連サービス
 
-### 接続エラー
-
-- `AGENT_URL`環境変数を確認
-- `dg-data-governance-agent`の動作状況を確認
-
-### 認証エラー
-
-- サービスアカウント権限を確認
-- Cloud Runサービス間の通信設定を確認
-
-### タイムアウト
-
-- 複雑なクエリはタイムアウト（120秒）の可能性
-- 処理時間の長い分析は分割して実行
-
----
-
-最終更新: 2025-09-15
+- **dg-data-governance-agent**: 親エージェント（このUIが接続）
+- **dg-dataplex-ai-agent**: Dataplex専門子エージェント
+- **dg-bigquery-ai-agent**: BigQuery専門子エージェント

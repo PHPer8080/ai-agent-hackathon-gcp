@@ -6,14 +6,6 @@ Dataplex専用AIエージェントサービス
 
 Google Cloud Dataplexの操作を自動化するAIエージェントのCloud Runサービスです。dg-data-governance-agentの子エージェントとして動作し、Dataplex関連の専門的なタスクを実行します。
 
-## 🔧 機能
-
-- **データアセット管理**: Dataplexアセットの一覧・詳細取得
-- **データ系譜分析**: データフローと依存関係の可視化
-- **データ品質監視**: 品質ルール・メトリクスの確認
-- **メタデータ管理**: タグ付けとメタデータ整理
-- **🛡️ ガードレール機能**: セキュリティ・ポリシーチェック
-
 ## 🏗️ アーキテクチャ
 
 ```text
@@ -26,44 +18,18 @@ dg-dataplex-mcp-server (MCPサーバー)
 Google Cloud Dataplex API
 ```
 
-## 📡 API エンドポイント
+## 🔧 主要機能
 
-### POST /chat
+### MCPサーバー経由で提供
 
-AIエージェントとのチャットインターフェース
+このエージェントは `dg-dataplex-mcp-server` を通じて以下の機能を提供します：
 
-**リクエスト例:**
-
-```json
-{
-  "message": "us-central1のDataplexアセットを取得してください",
-  "session_id": "user-session-001"
-}
-```
-
-**レスポンス例:**
-
-```json
-{
-  "response": "データアセットの情報を取得しました...",
-  "session_id": "user-session-001",
-  "tools_used": ["list_dataplex_assets"]
-}
-```
-
-### GET /health
-
-ヘルスチェック
-
-**レスポンス例:**
-
-```json
-{
-  "status": "healthy",
-  "agent_initialized": true,
-  "mcp_server_connected": true
-}
-```
+- **データアセット管理**: Dataplexアセットの一覧・詳細取得
+- **データ系譜分析**: データフローと依存関係の可視化
+- **データ品質監視**: 品質ルール・メトリクスの確認
+- **メタデータ管理**: タグ付けとメタデータ整理
+- **BigQueryメタデータ統合**: Dataplex API経由でのBigQueryメタデータ取得
+- **🛡️ ガードレール機能**: セキュリティ・ポリシーチェック
 
 ## 🛡️ ガードレール機能
 
@@ -83,46 +49,21 @@ Google ADKの`before_tool_callback`を使用して、function calling前にセ�
 ./deploy.sh <PROJECT_ID> <SERVICE_ACCOUNT>
 
 # 例
-./deploy.sh your-project-id sample-service-account@your-project-id.iam.gserviceaccount.com
+./deploy.sh your-project-id your-service-account@your-project-id.iam.gserviceaccount.com
 ```
 
-## 🛠️ 開発
+## 📊 技術スタック
 
-```bash
-# Poetry環境セットアップ
-poetry install
-
-# 環境変数設定
-export MCP_SERVER_URL="https://dg-dataplex-mcp-server-xxx.run.app"
-
-# ローカル実行
-poetry run uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
-```
-
-## ⚙️ 設定
-
-### 環境変数
-
-| 変数名 | 説明 | デフォルト |
-|--------|------|----------|
-| `MCP_SERVER_URL` | MCPサーバーURL | なし |
-| `GOOGLE_CLOUD_PROJECT` | GCPプロジェクトID | `your-project-id` |
-| `GOOGLE_CLOUD_LOCATION` | デプロイリージョン | `us-central1` |
+- **Python 3.12+**: プログラミング言語
+- **Poetry 2.1.1**: 依存関係管理（バージョン固定）
+- **Google ADK**: AIエージェント開発キット
+- **FastAPI**: Webフレームワーク
+- **Google Cloud Platform**:
+  - Cloud Run
+  - Dataplex API
+  - Vertex AI
 
 ## 🔗 関連サービス
 
 - **dg-data-governance-agent**: 親エージェント（このエージェントを呼び出し）
 - **dg-dataplex-mcp-server**: Dataplex API統合サーバー（このエージェントが使用）
-
-## 📄 技術スタック
-
-- **Python 3.12+**
-- **Poetry 2.1.1** (依存関係管理)
-- **Google ADK** (AIエージェント開発キット)
-- **FastAPI** (Webフレームワーク)
-- **Google Cloud Platform**
-  - Cloud Run
-  - Dataplex API
-  - Vertex AI
-
-詳細な開発ルールは [AGENTS.md](../../AGENTS.md) を参照
