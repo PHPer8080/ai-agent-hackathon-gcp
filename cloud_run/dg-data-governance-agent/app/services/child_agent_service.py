@@ -59,8 +59,18 @@ class ChildAgentService:
                     logger.error(f"Dataplexエージェント呼び出し失敗: {response.status_code}")
                     return "", []
 
+                # レスポンス形式の安全な処理
                 chat_result = response.json()
-                return chat_result.get("response", ""), chat_result.get("agents_used", [])
+                # JSON形式の場合（辞書型）
+                if isinstance(chat_result, dict):
+                    return chat_result.get("response", ""), chat_result.get("agents_used", ["dg-dataplex-ai-agent"])
+                # 文字列形式の場合
+                elif isinstance(chat_result, str):
+                    logger.warning("Dataplexエージェントから文字列レスポンスを受信")
+                    return chat_result, ["dg-dataplex-ai-agent"]
+                else:
+                    logger.error(f"予期しないレスポンス形式: {type(chat_result)}")
+                    return str(chat_result), ["dg-dataplex-ai-agent"]
 
         except Exception as e:
             logger.error(f"Dataplexエージェント通信エラー: {e}")
@@ -102,11 +112,20 @@ class ChildAgentService:
                     logger.error(f"BigQueryエージェント呼び出し失敗: {response.status_code}")
                     return "", []
 
+                # レスポンス形式の安全な処理
                 chat_result = response.json()
-                response_text = f"**BigQuery分析結果**:\n{chat_result.get('response', 'データなし')}\n\n"
-                agents_used = ["dg-bigquery-ai-agent"]
-
-                return response_text, agents_used
+                # JSON形式の場合（辞書型）
+                if isinstance(chat_result, dict):
+                    response_text = f"{chat_result.get('response', 'データなし')}\n\n"
+                    agents_used = ["dg-bigquery-ai-agent"]
+                    return response_text, agents_used
+                # 文字列形式の場合
+                elif isinstance(chat_result, str):
+                    logger.warning("BigQueryエージェントから文字列レスポンスを受信")
+                    return f"{chat_result}\n\n", ["dg-bigquery-ai-agent"]
+                else:
+                    logger.error(f"予期しないレスポンス形式: {type(chat_result)}")
+                    return f"{str(chat_result)}\n\n", ["dg-bigquery-ai-agent"]
 
         except Exception as e:
             logger.error(f"BigQueryエージェント通信エラー: {e}")

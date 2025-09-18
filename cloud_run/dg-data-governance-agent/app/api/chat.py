@@ -63,10 +63,23 @@ async def chat(request: ChatRequest) -> ChatResponse:
         agents_used = []
         final_response = ""
 
-        # データ品質シーケンシャル実行判定
-        if agent_routing_service.is_data_quality_sequential(request.message):
+        # ガバナンススコア関連の質問処理（最優先）
+        if any(keyword in request.message.lower() for keyword in AgentConfig.GOVERNANCE_SCORE_KEYWORDS):
+            logger.info("📊 ガバナンススコア関連の質問を検出、BigQueryエージェントに直接委譲")
+            bigquery_response, bigquery_agents = await child_agent_service.call_bigquery_agent(request.message, session_id, user_id, config.bigquery_url)
+            final_response = bigquery_response
+            agents_used.extend(bigquery_agents)
+
+        # データ品質シーケンシャル実行判定（BigQuery関連判定より優先）
+        elif agent_routing_service.is_data_quality_sequential(request.message):
             logger.info("🔄 データ品質シーケンシャル実行を開始")
             final_response, agents_used = await sequential_service.execute_data_quality_sequential(request.message, session_id, user_id, config.dataplex_url, config.bigquery_url)
+
+        # BigQuery関連の質問処理（共通設定を使用）
+        elif agent_routing_service.is_bigquery_related(request.message):
+            bigquery_response, bigquery_agents = await child_agent_service.call_bigquery_agent(request.message, session_id, user_id, config.bigquery_url)
+            final_response = bigquery_response
+            agents_used.extend(bigquery_agents)
 
         # データ品質ルール設定の質問処理（シーケンシャル実行以外）
         elif any(keyword in request.message.lower() for keyword in ["データ品質", "品質ルール", "品質チェック", "ガバナンス戦略", "data quality", "quality rule"]):
@@ -79,12 +92,6 @@ async def chat(request: ChatRequest) -> ChatResponse:
                     break
             final_response = governance_response
             agents_used.append("dg-data-governance-agent")
-
-        # BigQuery関連の質問処理（共通設定を使用）
-        elif agent_routing_service.is_bigquery_related(request.message):
-            bigquery_response, bigquery_agents = await child_agent_service.call_bigquery_agent(request.message, session_id, user_id, config.bigquery_url)
-            final_response = bigquery_response
-            agents_used.extend(bigquery_agents)
 
         # 親エージェントの処理（子エージェントの結果がない場合のみ）
         if not final_response:

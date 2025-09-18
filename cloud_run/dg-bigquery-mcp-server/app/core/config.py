@@ -22,7 +22,7 @@ class Settings:
         self.debug: bool = os.getenv("DEBUG", "false").lower() == "true"
 
         # BigQuery設定
-        self.bigquery_default_dataset: str = os.getenv("BIGQUERY_DEFAULT_DATASET", "tt_us")
+        self.bigquery_default_dataset: str = os.getenv("BIGQUERY_DEFAULT_DATASET", "tt_hackathon")
 
 
 def get_settings() -> Settings:

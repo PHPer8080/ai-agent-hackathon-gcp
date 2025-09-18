@@ -59,7 +59,7 @@ Content-Type: application/json
 
 ```json
 {
-  "dataset_id": "tt_us",
+  "dataset_id": "tt_hackathon",
   "table_id": "raw_products"
 }
 ```

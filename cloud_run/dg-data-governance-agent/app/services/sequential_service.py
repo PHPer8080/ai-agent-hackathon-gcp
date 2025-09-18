@@ -68,16 +68,7 @@ class SequentialService:
                 return f"{bigquery_response}\n\nDataplex品質ルール提案の取得に失敗しました。", bigquery_agents
 
             # 結果を統合
-            combined_response = f"""
-                ## 📊 BigQuery分析結果
-                {bigquery_response}
-
-                ## 🎯 Dataplex品質ルール提案
-                {dataplex_response}
-
-                ---
-                *このレスポンスは、BigQuery統計情報取得 → Dataplex品質ルール提案のシーケンシャルワークフローで生成されました。*
-            """
+            combined_response = f"## 📊 BigQuery分析結果\n\n{bigquery_response}\n\n## 🎯 Dataplex品質ルール提案\n\n{dataplex_response}"
             combined_agents = bigquery_agents + dataplex_agents
 
             logger.info(f"✅ データ品質シーケンシャル実行完了: {len(combined_agents)}個のエージェント使用")

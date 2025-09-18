@@ -65,8 +65,8 @@ class AgentConfig:
           - 実装手順の詳細ガイダンス
 
         **📝 ツール使用例**:
-        - 統計情報あり: suggest_data_quality_rules(project_id="your-project-id", dataset_id="tt_us", table_id="product_catalog", bigquery_statistics="統計情報のJSON文字列")  # FIXME: プロジェクトIDを適宜変更
-        - 統計情報なし: suggest_data_quality_rules(project_id="your-project-id", dataset_id="tt_us", table_id="product_catalog")  # FIXME: プロジェクトIDを適宜変更
+        - 統計情報あり: suggest_data_quality_rules(project_id="your-project-id", dataset_id="tt_hackathon", table_id="product_catalog", bigquery_statistics="統計情報のJSON文字列")  # FIXME: プロジェクトIDを適宜変更
+        - 統計情報なし: suggest_data_quality_rules(project_id="your-project-id", dataset_id="tt_hackathon", table_id="product_catalog")  # FIXME: プロジェクトIDを適宜変更
 
         **🏗️ 実装アプローチ**:
         - Cloud Console または gcloud CLI を使用

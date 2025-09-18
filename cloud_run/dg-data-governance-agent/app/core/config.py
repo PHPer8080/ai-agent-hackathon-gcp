@@ -6,7 +6,8 @@
 
 import logging
 import os
-from typing import Optional, Tuple
+from typing import Optional
+from typing import Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +37,9 @@ class AgentConfig:
     DATA_QUALITY_SEQUENTIAL_KEYWORDS = [
         "データ品質", "品質ルール", "品質改善", "品質分析", "品質提案", "改善提案", "品質向上",
         "data quality", "quality rule", "quality improvement", "quality analysis", "quality suggestion",
-        "ガバナンススコア", "governance score", "品質スコア", "quality score", "品質評価", "quality evaluation",
+        # スコア関連キーワードを除去（ガバナンススコア、品質スコア、品質評価、品質チェック）
         "品質測定", "quality measurement", "品質監視", "quality monitoring", "品質管理", "quality management",
-        "品質保証", "quality assurance", "品質チェック", "quality check", "品質検証", "quality validation",
+        "品質保証", "quality assurance", "品質検証", "quality validation",
         "品質基準", "quality standard", "品質指標", "quality metric", "品質レポート", "quality report",
         "品質ダッシュボード", "quality dashboard", "品質アラート", "quality alert", "品質しきい値", "quality threshold",
         "データプロファイリング", "data profiling", "統計情報", "statistics", "データ統計", "data statistics",
@@ -46,6 +47,14 @@ class AgentConfig:
         "null値", "null value", "欠損値", "missing value", "重複", "duplicate", "一意性", "uniqueness",
         "整合性", "consistency", "完全性", "completeness", "正確性", "accuracy", "妥当性", "validity",
         "適時性", "timeliness", "関連性", "relevance", "信頼性", "reliability", "可用性", "availability"
+    ]
+    # fmt: on
+
+    # ガバナンススコア専用キーワード（BigQueryエージェントに直接委譲）
+    # fmt: off
+    GOVERNANCE_SCORE_KEYWORDS = [
+        "ガバナンススコア", "governance score", "品質スコア", "quality score",
+        "スコア", "score", "評価", "evaluation", "ランク", "rank", "グレード", "grade"
     ]
     # fmt: on
 
@@ -94,7 +103,7 @@ class AgentConfig:
     # プロジェクト関連キーワード
     # fmt: off
     PROJECT_KEYWORDS = [
-        "プロジェクト", "project", "tt_us",
+        "プロジェクト", "project", "tt_hackathon",
         "データレイク", "データウェアハウス", "ユーザーストレージ"
     ]
     # fmt: on
@@ -132,16 +141,12 @@ class AgentConfig:
         if self.dataplex_url:
             logger.info(f"Dataplex子エージェントURL設定完了: {self.dataplex_url}")
         else:
-            logger.warning(
-                "DG_DATAPLEX_AI_AGENT_URL未設定：Dataplex子エージェント連携は無効"
-            )
+            logger.warning("DG_DATAPLEX_AI_AGENT_URL未設定：Dataplex子エージェント連携は無効")
 
         if self.bigquery_url:
             logger.info(f"BigQuery子エージェントURL設定完了: {self.bigquery_url}")
         else:
-            logger.warning(
-                "DG_BIGQUERY_AI_AGENT_URL未設定：BigQuery子エージェント連携は無効"
-            )
+            logger.warning("DG_BIGQUERY_AI_AGENT_URL未設定：BigQuery子エージェント連携は無効")
 
         return self.dataplex_url, self.bigquery_url
 

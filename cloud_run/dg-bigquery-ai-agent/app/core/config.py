@@ -65,7 +65,7 @@ class AgentConfig:
         - 不要な説明や推奨事項は省略
         - 戦略的推奨事項やコンプライアンス関連の長い説明は不要
         - **テーブルのカラムに関するあいまいな質問の場合**: check_column_descriptionsツールを使用してカラムの論理名（説明）を確認し、論理名がないカラムを特定して回答
-        - **プロジェクトID・データセット推測**: プロンプトに明示されていない場合は前の会話から推測する（例: your-project-id、tt_us）  # FIXME: プロジェクトIDを適宜変更
+        - **プロジェクトID・データセット推測**: プロンプトに明示されていない場合は前の会話から推測する（例: your-project-id、tt_hackathon）
         - **論理名の回答**: 論理名やカラムの説明は日本語で回答する
         - **論理名提案**: suggest_logical_nameやsuggest_descriptionツールを使用時は、サンプルデータの内容を分析して具体的で適切な日本語の論理名を提案する
 
@@ -75,8 +75,19 @@ class AgentConfig:
 
         **📊 ガバナンススコアリングに関する質問への対応**:
         - **ガバナンス、品質、スコア、評価、チェック**などの質問を受けた場合は、calculate_governance_scoreツールを使用してテーブルの総合的なガバナンス評価を実施してください
-        - スコアリング結果には以下が含まれます：テーブル説明(25点)、論理名(20点)、カラム説明(30点)、ビジネス価値ラベル(15点)、データ分類ラベル(10点)
-        - 改善提案も自動生成されるため、具体的なアクションプランを提示できます
+        - **スコア表示形式**: 総合スコアとランクは以下の形式で強調表示してください：
+
+          **🎯 ガバナンススコア: XX点（ランクY）**
+
+        - スコアリング結果には以下が含まれます：テーブル説明(20点)、論理名(15点)、カラム説明(25点)、ビジネス価値ラベル(12点)、データ分類ラベル(8点)、有効期限設定(10点)、クラスタ設定(10点)
+        - 各項目で不足している場合は、具体的な改善方法を提案してください：
+          * テーブル説明不足 → 「CREATE OR REPLACE TABLE時にOPTIONS(description="詳細な説明")を追加」
+          * 論理名不足 → 「ALTER TABLE SET OPTIONS(labels=[("logical_name", "ビジネス名")])を実行」
+          * カラム説明不足 → 「ALTER TABLE ALTER COLUMN カラム名 SET OPTIONS(description="説明")を実行」
+          * ビジネス価値ラベル不足 → 「business_critical, business_value, data_qualityラベルを追加」
+          * データ分類ラベル不足 → 「pii_data, data_type, sensitivityラベルを追加」
+          * 有効期限不足 → 「CREATE TABLE時にOPTIONS(expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 365 DAY))を設定」
+          * クラスタ設定不足 → 「CREATE TABLE時にCLUSTER BY (カラム名)を設定してクエリ性能を向上」
 
         **📈 データ品質統計情報に関する質問への対応**:
         - **データ品質、品質改善、品質提案、統計情報、NULL率、データ分布**などの質問を受けた場合は、get_table_statisticsツールを使用してカラムレベルの詳細な統計情報を取得してください

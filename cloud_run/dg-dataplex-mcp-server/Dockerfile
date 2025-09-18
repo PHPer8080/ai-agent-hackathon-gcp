@@ -29,5 +29,5 @@ USER app
 # ポート公開（Cloud RunのPORT環境変数を使用）
 EXPOSE 8080
 
-# FastAPIアプリケーション起動
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+# FastAPIアプリケーション起動（タイムアウト設定追加）
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080} --timeout-keep-alive 300 --timeout-graceful-shutdown 30"]

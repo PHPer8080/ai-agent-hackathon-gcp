@@ -113,11 +113,24 @@ class DataplexService:
             logger.warning(f"既存スキャン取得エラー: {e}")
             return []
 
-    def _analyze_bigquery_statistics(self, statistics: dict) -> dict:
+    def _analyze_bigquery_statistics(self, statistics) -> dict:
         """BigQuery統計情報の解析"""
         analysis = {"total_columns": 0, "nullable_columns": [], "numeric_columns": [], "string_columns": [], "timestamp_columns": [], "recommendations": []}
 
         if not statistics:
+            return analysis
+
+        # statisticsが文字列の場合はJSONとしてパース
+        if isinstance(statistics, str):
+            try:
+                statistics = json.loads(statistics)
+            except json.JSONDecodeError as e:
+                logger.warning(f"BigQuery統計情報のJSONパースエラー: {e}")
+                return analysis
+
+        # statisticsが辞書でない場合は空の解析結果を返す
+        if not isinstance(statistics, dict):
+            logger.warning(f"BigQuery統計情報が予期しない型です: {type(statistics)}")
             return analysis
 
         # column_statisticsの解析

@@ -41,7 +41,7 @@ POST /bigquery/datasets
 POST /bigquery/tables
 {
   "project_id": "your-project-id",
-  "dataset_id": "tt_us"
+  "dataset_id": "tt_hackathon"
 }
 
 # クエリ実行

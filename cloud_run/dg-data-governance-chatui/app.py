@@ -42,47 +42,15 @@ async def start():
     # データガバナンス関連のプリセットプロンプト用のアクション
     actions = [
         # BigQueryエージェント機能
-        cl.Action(
-            name="preset_datasets",
-            value="your-project-idプロジェクトのBigQueryデータセット一覧を表示して",  # FIXME: プロジェクトIDを適宜変更
-            label="📊 データセット一覧",
-        ),
-        cl.Action(
-            name="preset_lineage",
-            value="tt_usデータセットのproduct_catalogテーブルの依存関係（リネージ）を分析して",
-            label="🔗 データ系譜分析",
-        ),
-        cl.Action(
-            name="preset_governance_score",
-            value="tt_usデータセットのcustomer_profilesテーブルのガバナンススコアを計算して評価して",
-            label="📈 ガバナンススコア",
-        ),
-        cl.Action(
-            name="preset_missing_metadata",
-            value="tt_usデータセットで説明や論理名が不足しているテーブルを検出して",
-            label="🏷️ メタデータ不足検出",
-        ),
-        cl.Action(
-            name="preset_column_info",
-            value="tt_usデータセットのorder_detailsテーブルのカラム情報と説明を確認して",
-            label="📋 カラム情報確認",
-        ),
-        cl.Action(
-            name="preset_statistics",
-            value="tt_usデータセットのraw_ordersテーブルの統計情報を取得してデータ品質を分析して",
-            label="📊 統計情報分析",
-        ),
+        cl.Action(name="preset_datasets", value="your-project-idプロジェクトのBigQueryデータセット一覧を表示して", label="📊 データセット一覧"),  # FIXME: プロジェクトIDを適宜変更
+        cl.Action(name="preset_lineage", value="tt_hackathonデータセットのuser_sessionsテーブルの依存関係（リネージ）を分析して", label="🔗 データ系譜分析"),
+        cl.Action(name="preset_governance_score", value="tt_hackathonデータセットのcustomer_profilesテーブルのガバナンススコアを計算して評価して", label="📈 ガバナンススコア"),
+        cl.Action(name="preset_missing_metadata", value="tt_hackathonデータセットで説明や論理名が不足しているテーブルを検出して", label="🏷️ メタデータ不足検出"),
+        cl.Action(name="preset_column_info", value="tt_hackathonデータセットのinventory_movementsテーブルのカラム情報と説明を確認して", label="📋 カラム情報確認"),
+        cl.Action(name="preset_statistics", value="tt_hackathonデータセットのpayment_transactionsテーブルの統計情報を取得してデータ品質を分析して", label="📊 統計情報分析"),
         # Dataplexエージェント機能
-        cl.Action(
-            name="preset_quality_rules",
-            value="tt_usデータセットのproduct_catalogテーブルについて、BigQuery統計情報に基づいてデータ品質ルールを提案して",
-            label="🛡️ 品質ルール提案",
-        ),
-        cl.Action(
-            name="preset_metadata_suggest",
-            value="tt_usデータセットのraw_customersテーブルの論理名と説明を提案して",
-            label="💡 メタデータ提案",
-        ),
+        cl.Action(name="preset_quality_rules", value="tt_hackathonデータセットのproduct_reviewsテーブルについて、BigQuery統計情報に基づいてデータ品質ルールを提案して", label="🛡️ 品質ルール提案"),
+        cl.Action(name="preset_metadata_suggest", value="tt_hackathonデータセットのraw_customersテーブルの論理名と説明を提案して", label="💡 メタデータ提案"),
     ]
 
     # ユーザー情報を含むウェルカムメッセージ
@@ -91,11 +59,16 @@ async def start():
         f"🛡️ **データガバナンス統合アシスタント**\n\n"
         f"こんにちは、{user_display}さん！\n\n"
         "BigQueryメタデータ管理とDataplex品質管理を統合したAIアシスタントです。\n\n"
-        "**🔧 利用可能な機能**:\n"
-        "• **BigQueryエージェント**: データセット一覧、テーブル系譜、ガバナンススコア、統計情報分析\n"
-        "• **Dataplexエージェント**: データ品質ルール提案、メタデータ改善提案\n\n"
-        "下のボタンから選択するか、自由にメッセージを入力してください！\n"
-        "例: 「tt_usデータセットのテーブル一覧を表示して」「tt_usデータセットのproduct_catalogテーブルの品質ルールを提案して」"
+        "---\n\n"
+        "   • 📋 **データセット一覧** - プロジェクト内の全データセットを表示\n"
+        "   • 🔗 **テーブル系譜** - データの依存関係と流れを分析\n"
+        "   • 📈 **ガバナンススコア** - データ品質とメタデータの評価\n"
+        "   • 🏷️ **メタデータ改善提案** - 不足している説明や論理名を検出\n"
+        "   • 📊 **統計情報分析** - データ品質の詳細分析\n"
+        "   • 💡 **データ品質ルール提案** - 統計情報に基づく品質管理ルール\n\n"
+        "---\n\n"
+        "💬 **使い方**: 下のボタンから選択するか、自由にメッセージを入力してください！\n\n"
+        "📝 **例**: 「tt_hackathonデータセットのテーブル一覧を表示して」「product_reviewsテーブルの品質ルールを提案して」"
     )
     await cl.Message(content=welcome_message, actions=actions).send()
 

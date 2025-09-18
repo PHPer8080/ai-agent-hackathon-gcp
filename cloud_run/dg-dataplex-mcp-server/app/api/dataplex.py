@@ -29,7 +29,9 @@ async def suggest_data_quality_rules(request: dict) -> str:
     bigquery_statistics = request.get("bigquery_statistics")  # BigQuery統計情報を受け取る
 
     if not dataset_id or not table_id:
-        return json.dumps({"error": "dataset_idとtable_idが必要です", "example": "dataset_id='tt_us', table_id='product_catalog'", "description": "指定されたテーブルのデータ品質ルールを提案します"})
+        return json.dumps(
+            {"error": "dataset_idとtable_idが必要です", "example": "dataset_id='tt_hackathon', table_id='product_catalog'", "description": "指定されたテーブルのデータ品質ルールを提案します"}
+        )
 
     result = await dataplex_service.suggest_data_quality_rules(project_id, dataset_id, table_id, bigquery_statistics)
     logger.info("✅ ツール実行完了: suggest_data_quality_rules")

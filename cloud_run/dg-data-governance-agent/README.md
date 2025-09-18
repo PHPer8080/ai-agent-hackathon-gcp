@@ -42,7 +42,7 @@ AIエージェントとのチャットエンドポイント
 
 ```json
 {
-  "message": "BigQueryのtt_usデータセットとDataplexの品質状況を教えて",
+  "message": "BigQueryのtt_hackathonデータセットとDataplexの品質状況を教えて",
   "session_id": "optional-session-id"
 }
 ```
@@ -88,7 +88,7 @@ AIエージェントとのチャットエンドポイント
 curl -X POST "https://dg-data-governance-agent-xxx.run.app/chat" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "tt_usのBigQueryテーブルとDataplexアセットの品質状況を統合分析して"
+    "message": "tt_hackathonのBigQueryテーブルとDataplexアセットの品質状況を統合分析して"
   }'
 ```
 
@@ -98,7 +98,7 @@ curl -X POST "https://dg-data-governance-agent-xxx.run.app/chat" \
 curl -X POST "https://dg-data-governance-agent-xxx.run.app/chat" \
   -H "Content-Type: application/json" \
   -d '{
-    "message": "BigQueryのtt_usデータセットのテーブル一覧と説明不足を確認して"
+    "message": "BigQueryのtt_hackathonデータセットのテーブル一覧と説明不足を確認して"
   }'
 ```
 

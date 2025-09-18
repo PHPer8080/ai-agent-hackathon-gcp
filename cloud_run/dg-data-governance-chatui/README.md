@@ -142,14 +142,14 @@ poetry run chainlit run app.py
 #### BigQuery操作
 
 ```text
-「BigQueryのtt_usデータセットのテーブル一覧を表示して」
+「BigQueryのtt_hackathonデータセットのテーブル一覧を表示して」
 「説明が設定されていないテーブルを検出して」
 ```
 
 ### 高度な統合分析
 
 ```text
-「BigQueryのtt_usとDataplexアセットの品質状況を統合分析して」
+「BigQueryのtt_hackathonとDataplexアセットの品質状況を統合分析して」
 「プロジェクト全体のデータガバナンス状況を分析して」
 「メタデータタグの整理状況と改善提案をお願いします」
 ```
