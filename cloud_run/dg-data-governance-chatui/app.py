@@ -42,7 +42,7 @@ async def start():
     # データガバナンス関連のプリセットプロンプト用のアクション
     actions = [
         # BigQueryエージェント機能
-        cl.Action(name="preset_datasets", value="your-project-idプロジェクトのBigQueryデータセット一覧を表示して", label="📊 データセット一覧"),  # FIXME: プロジェクトIDを適宜変更
+        cl.Action(name="preset_datasets", value="BigQueryデータセット一覧を表示して", label="📊 データセット一覧"),
         cl.Action(name="preset_lineage", value="tt_hackathonデータセットのuser_sessionsテーブルの依存関係（リネージ）を分析して", label="🔗 データ系譜分析"),
         cl.Action(name="preset_governance_score", value="tt_hackathonデータセットのcustomer_profilesテーブルのガバナンススコアを計算して評価して", label="📈 ガバナンススコア"),
         cl.Action(name="preset_missing_metadata", value="tt_hackathonデータセットで説明や論理名が不足しているテーブルを検出して", label="🏷️ メタデータ不足検出"),
