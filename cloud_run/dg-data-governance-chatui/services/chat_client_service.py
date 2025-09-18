@@ -38,8 +38,8 @@ class ChatClientService:
 
                     # early return for auth error
                     if response.status == 401:
-                        self._refresh_token()
-                        await self.send_message(message, session_id)
+                        self.auth_service.refresh_token(self.agent_url)
+                        await self.send_message(message, session_id, user_id)
                         return
 
                     # other errors
