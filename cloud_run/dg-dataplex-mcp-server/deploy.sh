@@ -33,7 +33,7 @@ gcloud run deploy ${SERVICE_NAME} \
 --cpu=1 \
 --timeout=3600 \
 --concurrency=300 \
---min-instances=0 \
+--min-instances=1 \
 --max-instances=10 \
 --ingress=internal \
 --no-allow-unauthenticated \
